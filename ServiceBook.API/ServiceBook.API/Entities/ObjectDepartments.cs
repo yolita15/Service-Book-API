@@ -2,7 +2,7 @@
 
 namespace SB.API.Entities
 {
-    public class ObjectDepartments
+    public class ObjectDepartment
     {
         public Guid ObjectId { get; set; }
 

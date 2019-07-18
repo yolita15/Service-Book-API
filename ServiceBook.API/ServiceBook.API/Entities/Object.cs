@@ -41,6 +41,6 @@ namespace SB.API.Entities
 
        // public IList<ObjectUsers> ObjectUsers { get; set; }
 
-        public IList<ObjectDepartments> ObjectDepartments { get; set; }
+        public IList<ObjectDepartment> ObjectDepartments { get; set; }
     }
 }

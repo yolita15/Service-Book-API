@@ -24,7 +24,7 @@ namespace SB.API.Entities
 
        // public DbSet<ObjectUsers> ObjectUsers { get; set; }
 
-        public DbSet<ObjectDepartments> ObjectDepartments { get; set; }
+        public DbSet<ObjectDepartment> ObjectDepartments { get; set; }
 
         public ServiceBookContext(DbContextOptions<ServiceBookContext> options)
            : base(options)
@@ -36,7 +36,7 @@ namespace SB.API.Entities
         {
             modelBuilder.Entity<CompanyProviders>().HasKey(sc => new { sc.CompanyId, sc.ProviderId });
            // modelBuilder.Entity<ObjectUsers>().HasKey(sc => new { sc.ObjectId, sc.UserId });
-            modelBuilder.Entity<ObjectDepartments>().HasKey(sc => new { sc.ObjectId, sc.DepartmentId });
+            modelBuilder.Entity<ObjectDepartment>().HasKey(sc => new { sc.ObjectId, sc.DepartmentId });
 
             base.OnModelCreating(modelBuilder);
         }
