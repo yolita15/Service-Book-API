@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SB.API.Entities
+namespace ServiceBook.API.Entities
 {
-    public class ObjectUsers
+    public class ObjectUser
     {
         public Guid ObjectId { get; set; }
 

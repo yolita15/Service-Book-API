@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SB.API.Entities
+namespace ServiceBook.API.Entities
 {
     public class Provider
     {

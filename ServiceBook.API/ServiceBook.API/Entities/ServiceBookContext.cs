@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace SB.API.Entities
+namespace ServiceBook.API.Entities
 {
     public class ServiceBookContext : DbContext
     {
@@ -22,7 +22,7 @@ namespace SB.API.Entities
 
         public DbSet<CompanyProviders> CompanyProviders { get; set; }
 
-       // public DbSet<ObjectUsers> ObjectUsers { get; set; }
+        public DbSet<ObjectUser> ObjectUsers { get; set; }
 
         public DbSet<ObjectDepartment> ObjectDepartments { get; set; }
 
@@ -31,11 +31,12 @@ namespace SB.API.Entities
         {
             Database.Migrate();
         }
-     
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CompanyProviders>().HasKey(sc => new { sc.CompanyId, sc.ProviderId });
-           // modelBuilder.Entity<ObjectUsers>().HasKey(sc => new { sc.ObjectId, sc.UserId });
+            modelBuilder.Entity<ObjectUser>().HasKey(sc => new { sc.ObjectId, sc.UserId });
+            modelBuilder.Entity<ObjectUser>().HasOne(bc => bc.Object).WithMany(b => b.ObjectUsers).HasForeignKey(bc => bc.ObjectId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ObjectDepartment>().HasKey(sc => new { sc.ObjectId, sc.DepartmentId });
 
             base.OnModelCreating(modelBuilder);

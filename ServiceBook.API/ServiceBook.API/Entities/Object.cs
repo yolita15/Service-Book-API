@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SB.API.Entities
+namespace ServiceBook.API.Entities
 {
     public class Object
     {
@@ -39,7 +39,7 @@ namespace SB.API.Entities
 
         public double Longitude { get; set; }
 
-       // public IList<ObjectUsers> ObjectUsers { get; set; }
+        public IList<ObjectUser> ObjectUsers { get; set; }
 
         public IList<ObjectDepartment> ObjectDepartments { get; set; }
     }

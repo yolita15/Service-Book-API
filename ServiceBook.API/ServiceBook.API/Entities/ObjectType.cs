@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SB.API.Entities
+namespace ServiceBook.API.Entities
 {
     public class ObjectType
     {

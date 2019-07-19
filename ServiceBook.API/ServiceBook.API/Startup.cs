@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SB.API.Entities;
+using ServiceBook.API.Entities;
 
-namespace SB.API
+namespace ServiceBook.API
 {
     public class Startup
     {
@@ -27,7 +27,7 @@ namespace SB.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ServiceBookContext serviceBookContext)
         {
             if (env.IsDevelopment())
             {
@@ -39,6 +39,7 @@ namespace SB.API
                 app.UseHsts();
             }
 
+            serviceBookContext.EnsureSeedDataForContext();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

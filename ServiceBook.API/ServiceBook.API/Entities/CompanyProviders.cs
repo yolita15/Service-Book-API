@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SB.API.Entities
+namespace ServiceBook.API.Entities
 {
     public class CompanyProviders
     {
