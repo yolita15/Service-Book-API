@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceBook.API.Entities;
+using ServiceBook.API.Repositories;
 
 namespace ServiceBook.API
 {
@@ -24,6 +25,8 @@ namespace ServiceBook.API
 
             services.AddDbContext<ServiceBookContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ServiceBookContext")));
+
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

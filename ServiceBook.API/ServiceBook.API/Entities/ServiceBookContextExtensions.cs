@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace ServiceBook.API.Entities
 {
@@ -6,8 +6,21 @@ namespace ServiceBook.API.Entities
     {
         public static void EnsureSeedDataForContext(this ServiceBookContext context)
         {
-            UserType userType = new UserType() { Name = "Customer" };
-            context.UserTypes.Add(userType);
+            context.Users.RemoveRange(context.Users);
+            context.UserTypes.RemoveRange(context.UserTypes);
+            context.SaveChanges();
+
+            Company company = new Company()
+            {
+                Name = "Kotarakut Rumen EOOD",
+                Address = "Sofia, Angel Kunchev 22",
+                Website = "https://kotarakutrumen.com",
+                OrganizationNumber = "112120229",
+                Customer = new User() { FirstName = "Kotarakut", LastName = "Rumen", Type = new UserType() { Name = "Customer" } },
+                Providers = new List<Provider>() { new Provider() { Name = "Water" }, new Provider() { Name = "Heating" } }
+            };
+
+            context.Companies.Add(company);
             context.SaveChanges();
         }
     }

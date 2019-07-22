@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ServiceBook.API.Entities
 {
-    public class Tfm
+    public class Tfm : IEntity
     {
         [Key]
         public Guid Id { get; set; }

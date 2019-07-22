@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceBook.API.Entities
 {
-    public class Object
+    public class Object : IEntity
     {
         [Key]
         public Guid Id { get; set; }

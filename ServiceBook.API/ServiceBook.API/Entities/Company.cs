@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceBook.API.Entities
 {
-    public class Company
+    public class Company : IEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -28,7 +28,12 @@ namespace ServiceBook.API.Entities
         public User Customer { get; set; }
 
         public Guid CustomerId { get; set; }
+        
+        public List<Provider> Providers { get; set; }
 
-        public IList<CompanyProviders> CompanyProviders { get; set; }
+        public Company()
+        {
+            Providers = new List<Provider>();
+        }
     }
 }

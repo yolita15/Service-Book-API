@@ -8,18 +8,6 @@ namespace ServiceBook.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Providers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Providers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tfms",
                 columns: table => new
                 {
@@ -54,25 +42,6 @@ namespace ServiceBook.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Departments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    ProviderId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Departments_Providers_ProviderId",
-                        column: x => x.ProviderId,
-                        principalTable: "Providers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,30 +87,6 @@ namespace ServiceBook.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CompanyProviders",
-                columns: table => new
-                {
-                    CompanyId = table.Column<Guid>(nullable: false),
-                    ProviderId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompanyProviders", x => new { x.CompanyId, x.ProviderId });
-                    table.ForeignKey(
-                        name: "FK_CompanyProviders_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CompanyProviders_Providers_ProviderId",
-                        column: x => x.ProviderId,
-                        principalTable: "Providers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Objects",
                 columns: table => new
                 {
@@ -179,27 +124,22 @@ namespace ServiceBook.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ObjectDepartments",
+                name: "Providers",
                 columns: table => new
                 {
-                    ObjectId = table.Column<Guid>(nullable: false),
-                    DepartmentId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    CompanyId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ObjectDepartments", x => new { x.ObjectId, x.DepartmentId });
+                    table.PrimaryKey("PK_Providers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ObjectDepartments_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
+                        name: "FK_Providers_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ObjectDepartments_Objects_ObjectId",
-                        column: x => x.ObjectId,
-                        principalTable: "Objects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,15 +166,53 @@ namespace ServiceBook.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    ProviderId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departments_Providers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Providers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ObjectDepartments",
+                columns: table => new
+                {
+                    ObjectId = table.Column<Guid>(nullable: false),
+                    DepartmentId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ObjectDepartments", x => new { x.ObjectId, x.DepartmentId });
+                    table.ForeignKey(
+                        name: "FK_ObjectDepartments_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ObjectDepartments_Objects_ObjectId",
+                        column: x => x.ObjectId,
+                        principalTable: "Objects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_CustomerId",
                 table: "Companies",
                 column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompanyProviders_ProviderId",
-                table: "CompanyProviders",
-                column: "ProviderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Departments_ProviderId",
@@ -267,6 +245,11 @@ namespace ServiceBook.API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Providers_CompanyId",
+                table: "Providers",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_TypeId",
                 table: "Users",
                 column: "TypeId");
@@ -274,9 +257,6 @@ namespace ServiceBook.API.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "CompanyProviders");
-
             migrationBuilder.DropTable(
                 name: "ObjectDepartments");
 
@@ -293,13 +273,13 @@ namespace ServiceBook.API.Migrations
                 name: "Providers");
 
             migrationBuilder.DropTable(
-                name: "Companies");
-
-            migrationBuilder.DropTable(
                 name: "Tfms");
 
             migrationBuilder.DropTable(
                 name: "Types");
+
+            migrationBuilder.DropTable(
+                name: "Companies");
 
             migrationBuilder.DropTable(
                 name: "Users");

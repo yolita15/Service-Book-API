@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceBook.API.Entities
 {
-    public class Department
+    public class Department : IEntity
     {
         [Key]
         public Guid Id { get; set; }

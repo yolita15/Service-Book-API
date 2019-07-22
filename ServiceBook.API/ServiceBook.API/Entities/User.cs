@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceBook.API.Entities { 
-    public class User
+    public class User : IEntity
     {
         [Key]
         public Guid Id { get; set; }

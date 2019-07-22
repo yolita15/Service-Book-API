@@ -10,7 +10,7 @@ namespace ServiceBook.API.Entities
 
         public DbSet<Tfm> Tfms { get; set; }
 
-        public DbSet<ObjectType> Types { get; set; }
+        public DbSet<ObjectType> ObjectTypes { get; set; }
 
         public DbSet<Provider> Providers { get; set; }
 
@@ -19,8 +19,6 @@ namespace ServiceBook.API.Entities
         public DbSet<Company> Companies { get; set; }
 
         public DbSet<Object> Objects { get; set; }
-
-        public DbSet<CompanyProviders> CompanyProviders { get; set; }
 
         public DbSet<ObjectUser> ObjectUsers { get; set; }
 
@@ -34,7 +32,6 @@ namespace ServiceBook.API.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CompanyProviders>().HasKey(sc => new { sc.CompanyId, sc.ProviderId });
             modelBuilder.Entity<ObjectUser>().HasKey(sc => new { sc.ObjectId, sc.UserId });
             modelBuilder.Entity<ObjectUser>().HasOne(bc => bc.Object).WithMany(b => b.ObjectUsers).HasForeignKey(bc => bc.ObjectId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ObjectDepartment>().HasKey(sc => new { sc.ObjectId, sc.DepartmentId });

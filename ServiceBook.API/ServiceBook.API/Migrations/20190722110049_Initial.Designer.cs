@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceBook.API.Entities;
 
 namespace ServiceBook.API.Migrations
 {
     [DbContext(typeof(ServiceBookContext))]
-    [Migration("20190719084219_Initial")]
+    [Migration("20190722110049_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +21,7 @@ namespace ServiceBook.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SB.API.Entities.Company", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Company", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -48,20 +49,7 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.CompanyProviders", b =>
-                {
-                    b.Property<Guid>("CompanyId");
-
-                    b.Property<Guid>("ProviderId");
-
-                    b.HasKey("CompanyId", "ProviderId");
-
-                    b.HasIndex("ProviderId");
-
-                    b.ToTable("CompanyProviders");
-                });
-
-            modelBuilder.Entity("SB.API.Entities.Department", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Department", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -79,7 +67,7 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.Object", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Object", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -115,7 +103,7 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("Objects");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.ObjectDepartment", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.ObjectDepartment", b =>
                 {
                     b.Property<Guid>("ObjectId");
 
@@ -128,7 +116,7 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("ObjectDepartments");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.ObjectType", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.ObjectType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -142,7 +130,7 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("Types");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.ObjectUser", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.ObjectUser", b =>
                 {
                     b.Property<Guid>("ObjectId");
 
@@ -155,10 +143,12 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("ObjectUsers");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.Provider", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Provider", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CompanyId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -166,10 +156,12 @@ namespace ServiceBook.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyId");
+
                     b.ToTable("Providers");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.Tfm", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Tfm", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -187,7 +179,7 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("Tfms");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.User", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -209,7 +201,7 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.UserType", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.UserType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -223,82 +215,76 @@ namespace ServiceBook.API.Migrations
                     b.ToTable("UserTypes");
                 });
 
-            modelBuilder.Entity("SB.API.Entities.Company", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Company", b =>
                 {
-                    b.HasOne("SB.API.Entities.User", "Customer")
+                    b.HasOne("ServiceBook.API.Entities.User", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SB.API.Entities.CompanyProviders", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Department", b =>
                 {
-                    b.HasOne("SB.API.Entities.Company", "Company")
-                        .WithMany("CompanyProviders")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SB.API.Entities.Provider", "Provider")
-                        .WithMany()
+                    b.HasOne("ServiceBook.API.Entities.Provider", "Provider")
+                        .WithMany("Departments")
                         .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SB.API.Entities.Department", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Object", b =>
                 {
-                    b.HasOne("SB.API.Entities.Provider", "Provider")
-                        .WithMany()
-                        .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SB.API.Entities.Object", b =>
-                {
-                    b.HasOne("SB.API.Entities.Company", "Company")
+                    b.HasOne("ServiceBook.API.Entities.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SB.API.Entities.Tfm", "Tfm")
+                    b.HasOne("ServiceBook.API.Entities.Tfm", "Tfm")
                         .WithMany()
                         .HasForeignKey("TfmId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SB.API.Entities.ObjectType", "Type")
+                    b.HasOne("ServiceBook.API.Entities.ObjectType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SB.API.Entities.ObjectDepartment", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.ObjectDepartment", b =>
                 {
-                    b.HasOne("SB.API.Entities.Department", "Department")
+                    b.HasOne("ServiceBook.API.Entities.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SB.API.Entities.Object", "Object")
+                    b.HasOne("ServiceBook.API.Entities.Object", "Object")
                         .WithMany("ObjectDepartments")
                         .HasForeignKey("ObjectId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SB.API.Entities.ObjectUser", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.ObjectUser", b =>
                 {
-                    b.HasOne("SB.API.Entities.Object", "Object")
+                    b.HasOne("ServiceBook.API.Entities.Object", "Object")
                         .WithMany("ObjectUsers")
                         .HasForeignKey("ObjectId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SB.API.Entities.User", "User")
+                    b.HasOne("ServiceBook.API.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SB.API.Entities.User", b =>
+            modelBuilder.Entity("ServiceBook.API.Entities.Provider", b =>
                 {
-                    b.HasOne("SB.API.Entities.UserType", "Type")
+                    b.HasOne("ServiceBook.API.Entities.Company")
+                        .WithMany("Providers")
+                        .HasForeignKey("CompanyId");
+                });
+
+            modelBuilder.Entity("ServiceBook.API.Entities.User", b =>
+                {
+                    b.HasOne("ServiceBook.API.Entities.UserType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
