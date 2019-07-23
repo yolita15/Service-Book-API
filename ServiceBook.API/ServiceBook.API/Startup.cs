@@ -23,10 +23,20 @@ namespace ServiceBook.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddDbContext<ServiceBookContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ServiceBookContext")));
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IObjectRepository, ObjectRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +54,7 @@ namespace ServiceBook.API
 
             serviceBookContext.EnsureSeedDataForContext();
             app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }

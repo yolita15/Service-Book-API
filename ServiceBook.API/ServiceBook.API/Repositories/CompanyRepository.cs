@@ -1,4 +1,5 @@
-﻿using ServiceBook.API.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ServiceBook.API.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,18 @@ namespace ServiceBook.API.Repositories
             throw new NotImplementedException();
         }
 
+        public Company GetFirstCompany()
+        {
+            return _context.Companies
+                .Include(c => c.Providers)
+                .Include(c => c.Customer).ThenInclude(c => c.Type)
+                .FirstOrDefault();
+        }
+
         public IEnumerable<Provider> GetCompanyProviders(Guid companyId)
         {
             return _context.Companies.FirstOrDefault(c => c.Id == companyId).Providers;
         }
+
     }
 }

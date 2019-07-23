@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServiceBook.API.Entities;
 using ServiceBook.API.Repositories;
+using System;
 
 namespace ServiceBook.API.Controllers
 {
+    [Produces("application/json")]
+    [Route("api/company")]
     public class CompanyController : Controller
     {
         private ICompanyRepository _companyRepository;
@@ -10,6 +14,14 @@ namespace ServiceBook.API.Controllers
         public CompanyController(ICompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
+        }
+
+        [HttpGet]
+        public Company GetCompany()
+        {
+            Company companyFromRepo = _companyRepository.GetFirstCompany();
+
+            return companyFromRepo;
         }
     }
 }

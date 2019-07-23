@@ -6,8 +6,10 @@ namespace ServiceBook.API.Entities
     {
         public static void EnsureSeedDataForContext(this ServiceBookContext context)
         {
+            context.Companies.RemoveRange(context.Companies);
             context.Users.RemoveRange(context.Users);
             context.UserTypes.RemoveRange(context.UserTypes);
+            context.Providers.RemoveRange(context.Providers);
             context.SaveChanges();
 
             Company company = new Company()
