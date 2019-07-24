@@ -42,8 +42,8 @@ namespace ServiceBook.API.Repositories
         public Company GetFirstCompany()
         {
             return _context.Companies
-                .Include(c => c.Providers)
-                .Include(c => c.Customer).ThenInclude(c => c.Type)
+                .Include(c => c.Customer).ThenInclude(u => u.Type)
+                .Include(c => c.Providers).ThenInclude(d => d.Departments)
                 .FirstOrDefault();
         }
 
