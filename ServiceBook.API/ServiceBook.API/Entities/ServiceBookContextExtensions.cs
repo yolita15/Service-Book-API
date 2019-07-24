@@ -11,6 +11,9 @@ namespace ServiceBook.API.Entities
             context.UserTypes.RemoveRange(context.UserTypes);
             context.Providers.RemoveRange(context.Providers);
             context.Departments.RemoveRange(context.Departments);
+            context.ObjectTypes.RemoveRange(context.ObjectTypes);
+            context.Tfms.RemoveRange(context.Tfms);
+            context.Objects.RemoveRange(context.Objects);
             context.SaveChanges();
 
             Company company = new Company()
@@ -53,7 +56,7 @@ namespace ServiceBook.API.Entities
             Object icb = new Object() { Name = "ICB", Company = company, Tfm = new Tfm() { Name = "Building", Code = "2" }, Type = building, ObjectIdentifier = "220675" };
             Object niproruda = new Object() { Name = "Niproruda", Company = company, ParentId = icb.Id, Tfm = new Tfm() { Name = "Building", Code = "22" }, Type = building, ObjectIdentifier = "223675" };
             Object A207 = new Object() { Name = "A207", Company = company, ParentId = niproruda.Id, Tfm = new Tfm() { Name = "Room", Code = "221" }, Type = room , ObjectIdentifier = "220678" };
-            List<Object> objects = new List<Object>() { niproruda, A207 };
+            List<Object> objects = new List<Object>() { icb, niproruda, A207 };
 
             context.Companies.Add(company);
             context.Objects.AddRange(objects);

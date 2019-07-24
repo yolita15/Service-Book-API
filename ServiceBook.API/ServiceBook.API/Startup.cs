@@ -44,6 +44,7 @@ namespace ServiceBook.API
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IObjectRepository, ObjectRepository>();
             services.AddScoped<ITfmRepository, TfmRepository>();
+            services.AddScoped<IObjectTypeRepository, ObjectTypeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
