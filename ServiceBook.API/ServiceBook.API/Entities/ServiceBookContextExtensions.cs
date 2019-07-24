@@ -46,7 +46,17 @@ namespace ServiceBook.API.Entities
                 }
             };
 
+            ObjectType building = new ObjectType() { Name = "Building" };
+            ObjectType floor = new ObjectType() { Name = "Floor" };
+            ObjectType room = new ObjectType() { Name = "Room" };
+
+            Object icb = new Object() { Name = "ICB", Company = company, Tfm = new Tfm() { Name = "Building", Code = "2" }, Type = building };
+            Object niproruda = new Object() { Name = "Niproruda", Company = company, ParentId = icb.Id, Tfm = new Tfm() { Name = "Building", Code = "22" }, Type = building };
+            Object A207 = new Object() { Name = "A207", Company = company, ParentId = niproruda.Id, Tfm = new Tfm() { Name = "Room", Code = "221" }, Type = room };
+            List<Object> objects = new List<Object>() { icb, niproruda, A207 };
+
             context.Companies.Add(company);
+            context.Objects.AddRange(objects);
             context.SaveChanges();
         }
     }

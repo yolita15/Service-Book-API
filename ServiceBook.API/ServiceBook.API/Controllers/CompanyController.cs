@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using ServiceBook.API.Entities;
+using ServiceBook.API.Models;
 using ServiceBook.API.Repositories;
 using System;
 
@@ -17,11 +19,12 @@ namespace ServiceBook.API.Controllers
         }
 
         [HttpGet]
-        public Company GetCompany()
+        public IActionResult GetCompany()
         {
             Company companyFromRepo = _companyRepository.GetFirstCompany();
+            CompanyDto company = Mapper.Map<CompanyDto>(companyFromRepo);
 
-            return companyFromRepo;
+            return Ok(company);
         }
     }
 }
