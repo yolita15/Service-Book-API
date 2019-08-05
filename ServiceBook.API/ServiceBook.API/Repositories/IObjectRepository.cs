@@ -1,11 +1,13 @@
-﻿using System;
+﻿using ServiceBook.API.Entities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ServiceBook.API.Repositories
 {
     public interface IObjectRepository : IRepository<Entities.Object>
     {
+        IEnumerable<Entities.Object> GetObjectsForCompany(Guid id);
+
+        IEnumerable<Department> GetDepartmentsForObject(Guid id);
     }
 }

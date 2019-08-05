@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ServiceBook.API.Entities;
+using System;
 
 namespace ServiceBook.API.Models
 {
@@ -11,7 +9,7 @@ namespace ServiceBook.API.Models
 
         public string Name { get; set; }
        
-        public UserTypeDto Type { get; set; }
+        public UserType Type { get; set; }
 
         public Guid TypeId { get; set; }
     }

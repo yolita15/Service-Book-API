@@ -10,7 +10,7 @@ namespace ServiceBook.API.Entities
         [Key]
         public Guid Id { get; set; }
 
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
 
         [Required]
         [MaxLength(100)]

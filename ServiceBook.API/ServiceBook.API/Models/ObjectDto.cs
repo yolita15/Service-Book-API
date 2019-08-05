@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace ServiceBook.API.Models
 {
-    public class UserTypeDto
+    public class ObjectDto
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public Guid? ParentId { get; set; }
     }
 }

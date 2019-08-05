@@ -18,7 +18,7 @@ namespace ServiceBook.API.Controllers
             _companyRepository = companyRepository;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetCompany")]
         public IActionResult GetCompany()
         {
             Company companyFromRepo = _companyRepository.GetFirstCompany();

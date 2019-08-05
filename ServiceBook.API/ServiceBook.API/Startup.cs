@@ -61,13 +61,14 @@ namespace ServiceBook.API
             }
 
             var cfg = new AutoMapper.Configuration.MapperConfigurationExpression();
-            cfg.CreateMap<UserType, UserTypeDto>();
+            cfg.CreateMap<Company, CompanyDto>();
             cfg.CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
                 $"{src.FirstName} {src.LastName}"));
-            cfg.CreateMap<Department, DepartmentDto>();
-            cfg.CreateMap<Provider, ProviderDto>();
-            cfg.CreateMap<Company, CompanyDto>();
+            cfg.CreateMap<Tfm, TfmDto>()
+                .ForMember(dest => dest.DataToDisplay, opt => opt.MapFrom(src =>
+                $"{src.Code} {src.Name}"));
+            cfg.CreateMap<Object, ObjectForDropdownDto>();
 
             Mapper.Initialize(cfg);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceBook.API.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,11 +22,6 @@ namespace ServiceBook.API.Models
 
         public Guid CustomerId { get; set; }
 
-        public List<ProviderDto> Providers { get; set; }
-
-        public CompanyDto()
-        {
-            Providers = new List<ProviderDto>();
-        }
+        public List<Provider> Providers { get; set; }
     }
 }
