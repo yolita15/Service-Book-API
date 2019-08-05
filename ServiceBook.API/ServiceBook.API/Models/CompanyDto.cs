@@ -18,6 +18,8 @@ namespace ServiceBook.API.Models
 
         public string OrganizationNumber { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public UserDto Customer { get; set; }
 
         public Guid CustomerId { get; set; }

@@ -69,6 +69,7 @@ namespace ServiceBook.API
                 .ForMember(dest => dest.DataToDisplay, opt => opt.MapFrom(src =>
                 $"{src.Code} {src.Name}"));
             cfg.CreateMap<Object, ObjectForDropdownDto>();
+            cfg.CreateMap<Object, ObjectDto>();
 
             Mapper.Initialize(cfg);
 

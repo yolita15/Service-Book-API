@@ -3,6 +3,7 @@ using ServiceBook.API.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Object = ServiceBook.API.Entities.Object;
 
 namespace ServiceBook.API.Repositories
 {
@@ -14,22 +15,13 @@ namespace ServiceBook.API.Repositories
         {
             _context = context;
         }
-        public void Create(Entities.Object entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Entities.Object entity)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<Entities.Object> GetAll()
         {
             return _context.Objects;
         }
 
-        public Entities.Object GetById(Guid objectId)
+        public Object GetById(Guid objectId)
         {
             return _context.Objects
                 .Include(o => o.Company).ThenInclude(c => c.Providers).ThenInclude(p => p.Departments)
@@ -44,14 +36,21 @@ namespace ServiceBook.API.Repositories
                 .Select(d => d.Department).Include(d => d.Provider);
         }
 
-        public IEnumerable<Entities.Object> GetObjectsForCompany(Guid companyId)
+        public IEnumerable<Object> GetObjectsForCompany(Guid companyId)
         {
             return _context.Objects.Where(o => o.CompanyId == companyId);
         }
 
-        public void Update(Entities.Object entity)
+        public bool ObjectExists(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Objects.Any(o => o.Id == id);
+        }
+
+        public void UpdateObject(Object obj)
+        {
+            _context.Objects.Attach(obj);
+            _context.Entry(obj).Property(o => o.Name).IsModified = true;
+            _context.SaveChanges();
         }
     }
 }

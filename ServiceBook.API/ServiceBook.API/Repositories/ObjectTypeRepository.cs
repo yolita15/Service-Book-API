@@ -15,16 +15,6 @@ namespace ServiceBook.API.Repositories
             _context = context;
         }
 
-        public void Create(ObjectType entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(ObjectType entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<ObjectType> GetAll()
         {
             return _context.ObjectTypes;
@@ -33,11 +23,6 @@ namespace ServiceBook.API.Repositories
         public ObjectType GetById(Guid id)
         {
             return _context.ObjectTypes.FirstOrDefault(o => o.Id == id);
-        }
-
-        public void Update(ObjectType entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

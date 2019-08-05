@@ -21,15 +21,15 @@ namespace ServiceBook.API.Entities
             context.AddRange(new List<Provider>() { water, heating });
             context.SaveChanges();
 
-            Department cooling = new Department() { Name = "Cooling", Provider = water };
-            Department pipe = new Department() { Name = "Pipe", Provider = water };
-            Department ventilation = new Department() { Name = "Ventilation", Provider = water };
-            Department maintenance = new Department() { Name = "Maintenance", Provider = water };
+            Department cooling = new Department() { Name = "Cooling", Provider = water, ImageUrl = "assets/images/departments/cooling.png" };
+            Department pipe = new Department() { Name = "Pipe", Provider = water, ImageUrl = "assets/images/departments/pipe.png" };
+            Department ventilation = new Department() { Name = "Ventilation", Provider = water, ImageUrl = "assets/images/departments/ventilation.png" };
+            Department maintenance = new Department() { Name = "Maintenance", Provider = water, ImageUrl = "assets/images/departments/maint.png" };
 
-            Department fire = new Department() { Name = "Fire", Provider = heating };
-            Department electro = new Department() { Name = "Electro", Provider = heating };
-            Department telematic = new Department() { Name = "Telematic", Provider = heating };
-            Department security = new Department() { Name = "Security", Provider = heating };
+            Department fire = new Department() { Name = "Fire", Provider = heating, ImageUrl = "assets/images/departments/fire.png" };
+            Department electro = new Department() { Name = "Electro", Provider = heating, ImageUrl = "assets/images/departments/electro.png" };
+            Department telematic = new Department() { Name = "Telematic", Provider = heating, ImageUrl = "assets/images/departments/telematics.png" };
+            Department security = new Department() { Name = "Security", Provider = heating, ImageUrl = "assets/images/departments/security.png" };
 
             context.Departments.AddRange(new List<Department>() { cooling, pipe, ventilation, maintenance, fire, electro, telematic, security });
             context.SaveChanges();
@@ -40,6 +40,7 @@ namespace ServiceBook.API.Entities
                 Address = "Sofia, Angel Kunchev 22",
                 Website = "https://kotarakutrumen.com",
                 OrganizationNumber = "112120229",
+                ImageUrl = "assets/images/company/logo.jpg",
                 Customer = new User() { FirstName = "Kotarakut", LastName = "Rumen", Type = new UserType() { Name = "Customer" } },
                 Providers = new List<Provider>()
                 {
@@ -70,15 +71,15 @@ namespace ServiceBook.API.Entities
             context.SaveChanges();
 
 
-            Object icb = new Object() { Name = "ICB", Company = company, Tfm = first, Type = building, ObjectIdentifier = "220675" };
+            Object icb = new Object() { Name = "ICB", Company = company, Tfm = first, Type = building, ObjectIdentifier = "220675", ImageUrl = "assets/images/objects/icb-logo.jpg" };
             context.Objects.Add(icb);
             context.SaveChanges();
 
-            Object niproruda = new Object() { Name = "Niproruda", Company = company, ParentId = icb.Id, Tfm = second, Type = building, ObjectIdentifier = "223675" };
+            Object niproruda = new Object() { Name = "Niproruda", Company = company, ParentId = icb.Id, Tfm = second, Type = building, ObjectIdentifier = "223675", ImageUrl = "assets/images/objects/nipr-logo.jpg" };
             context.Objects.Add(niproruda);
             context.SaveChanges();
 
-            Object A207 = new Object() { Name = "A207", Company = company, ParentId = niproruda.Id, Tfm = third, Type = room, ObjectIdentifier = "220678" };
+            Object A207 = new Object() { Name = "A207", Company = company, ParentId = niproruda.Id, Tfm = third, Type = room, ObjectIdentifier = "220678", ImageUrl = "assets/images/objects/a207-logo.jpg" };
             context.Objects.Add(A207);
             context.SaveChanges();
 

@@ -14,15 +14,6 @@ namespace ServiceBook.API.Repositories
         {
             _context = context;
         }
-        public void Create(Tfm entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Tfm entity)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<Tfm> GetAll()
         {
@@ -32,11 +23,6 @@ namespace ServiceBook.API.Repositories
         public Tfm GetById(Guid id)
         {
             return _context.Tfms.FirstOrDefault(t => t.Id == id);
-        }
-
-        public void Update(Tfm entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceBook.API.Entities;
 
 namespace ServiceBook.API.Migrations
 {
     [DbContext(typeof(ServiceBookContext))]
-    partial class ServiceBookContextModelSnapshot : ModelSnapshot
+    [Migration("20190805082521_ImageUrlFieldForObject")]
+    partial class ImageUrlFieldForObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,8 +30,6 @@ namespace ServiceBook.API.Migrations
                         .HasMaxLength(200);
 
                     b.Property<Guid>("CustomerId");
-
-                    b.Property<string>("ImageUrl");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -54,8 +54,6 @@ namespace ServiceBook.API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ImageUrl");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
@@ -75,8 +73,6 @@ namespace ServiceBook.API.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("CompanyId");
-
-                    b.Property<string>("ImageUrl");
 
                     b.Property<double>("Latitude");
 

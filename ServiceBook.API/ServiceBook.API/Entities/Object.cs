@@ -16,6 +16,8 @@ namespace ServiceBook.API.Entities
         [MaxLength(100)]
         public string Name { get; set; }
 
+        public string ImageUrl { get; set; }
+
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }
 

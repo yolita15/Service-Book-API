@@ -14,16 +14,6 @@ namespace ServiceBook.API.Repositories
         {
             _context = context;
         }
-        public void Create(Company entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Company entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Company> GetAll()
         {
             return _context.Companies;
@@ -32,11 +22,6 @@ namespace ServiceBook.API.Repositories
         public Company GetById(Guid comapnyId)
         {
             return _context.Companies.FirstOrDefault(c => c.Id == comapnyId);
-        }
-
-        public void Update(Company entity)
-        {
-            throw new NotImplementedException();
         }
 
         public Company GetFirstCompany()

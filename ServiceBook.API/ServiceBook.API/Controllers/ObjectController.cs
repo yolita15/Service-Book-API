@@ -5,6 +5,7 @@ using ServiceBook.API.Models;
 using ServiceBook.API.Repositories;
 using System;
 using System.Collections.Generic;
+using Object = ServiceBook.API.Entities.Object;
 
 namespace ServiceBook.API.Controllers
 {
@@ -23,16 +24,17 @@ namespace ServiceBook.API.Controllers
         [HttpGet("{id}", Name = "GetObject")] 
         public IActionResult GetObject(Guid id)
         {
-            Entities.Object objectFromRepo = _objectRepository.GetById(id);
+            Object objectFromRepo = _objectRepository.GetById(id);
+            ObjectDto obj = Mapper.Map<ObjectDto>(objectFromRepo);
 
-            return Ok(objectFromRepo);
+            return Ok(obj);
         }
 
         [HttpGet("company/{companyId}", Name = "GetObjectsForCompany")]
         public IActionResult GetObjectsForCompany(Guid companyId)
         {
-            IEnumerable<Entities.Object> objectsFromRepo = _objectRepository.GetObjectsForCompany(companyId);
-            IEnumerable<ObjectForDropdownDto> objects = Mapper.Map<IEnumerable<Entities.Object>, IEnumerable<ObjectForDropdownDto>>(objectsFromRepo);
+            IEnumerable<Object> objectsFromRepo = _objectRepository.GetObjectsForCompany(companyId);
+            IEnumerable<ObjectForDropdownDto> objects = Mapper.Map<IEnumerable<Object>, IEnumerable<ObjectForDropdownDto>>(objectsFromRepo);
 
             return Ok(objects);
         }
@@ -43,6 +45,18 @@ namespace ServiceBook.API.Controllers
             IEnumerable<Department> departmentsFromRepo = _objectRepository.GetDepartmentsForObject(objectId);
 
             return Ok(departmentsFromRepo);
+        }
+
+        [HttpPut("{objectId}", Name = "UpdateObject")]
+        public IActionResult UpdateObject(Guid objectId, [FromBody] Object obj)
+        {
+            if(_objectRepository.ObjectExists(objectId) == false)
+            {
+                return NotFound();
+            }
+
+            _objectRepository.UpdateObject(obj);
+            return Ok();
         }
 
     }

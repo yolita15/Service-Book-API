@@ -9,11 +9,5 @@ namespace ServiceBook.API.Repositories
         IEnumerable<TEntity> GetAll();
 
         TEntity GetById(Guid id);
-
-        void Create(TEntity entity);
-
-        void Update(TEntity entity);
-
-        void Delete(TEntity entity);
     }
 }
