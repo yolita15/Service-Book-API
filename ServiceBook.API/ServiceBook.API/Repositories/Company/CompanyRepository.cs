@@ -37,5 +37,14 @@ namespace ServiceBook.API.Repositories
             return _context.Companies.FirstOrDefault(c => c.Id == companyId).Providers;
         }
 
+        public string GetCompanyName(Guid id)
+        {
+            return _context.Companies.Where(c => c.Id == id).Select(c => c.Name).First();
+        }
+
+        public string GetCompanyImageName(Guid id)
+        {
+            return _context.Companies.Where(c => c.Id == id).Select(c => c.ImageName).First();
+        }
     }
 }

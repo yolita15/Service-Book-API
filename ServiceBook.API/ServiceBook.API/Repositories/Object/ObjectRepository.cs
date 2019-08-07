@@ -7,7 +7,7 @@ using Object = ServiceBook.API.Entities.Object;
 
 namespace ServiceBook.API.Repositories
 {
-    public class ObjectRepository : IRepository<Entities.Object>, IObjectRepository
+    public class ObjectRepository : IObjectRepository
     {
         private ServiceBookContext _context;
 
@@ -16,7 +16,7 @@ namespace ServiceBook.API.Repositories
             _context = context;
         }
 
-        public IEnumerable<Entities.Object> GetAll()
+        public IEnumerable<Object> GetAll()
         {
             return _context.Objects;
         }
@@ -36,9 +36,25 @@ namespace ServiceBook.API.Repositories
                 .Select(d => d.Department).Include(d => d.Provider);
         }
 
+        public string GetImageUrl(Guid objectId)
+        {
+            return _context.Objects.Where(o => o.Id == objectId).Select(o => o.ImageName).First();
+        }
+
+        public string GetObjectName(Guid objectId)
+        {
+            return _context.Objects.Where(o => o.Id == objectId).Select(o => o.Name).First();
+        }
+
         public IEnumerable<Object> GetObjectsForCompany(Guid companyId)
         {
             return _context.Objects.Where(o => o.CompanyId == companyId);
+        }
+
+        public IEnumerable<User> GetUsersForObject(Guid id)
+        {
+            return _context.ObjectUsers.Where(o => o.ObjectId == id)
+                .Select(u => u.User).Include(u => u.Type);
         }
 
         public bool ObjectExists(Guid id)

@@ -12,24 +12,37 @@ namespace ServiceBook.API.Entities
             context.Providers.RemoveRange(context.Providers);
             context.Departments.RemoveRange(context.Departments);
             context.ObjectTypes.RemoveRange(context.ObjectTypes);
+            context.ObjectUsers.RemoveRange(context.ObjectUsers);
             context.Tfms.RemoveRange(context.Tfms);
             context.Objects.RemoveRange(context.Objects);
             context.SaveChanges();
 
-            Provider water = new Provider() { Name = "Water" };
-            Provider heating = new Provider() { Name = "Heating" };
-            context.AddRange(new List<Provider>() { water, heating });
+            UserType customer = new UserType() { Name = "Customer" };
+            UserType objResponsible = new UserType() { Name = "Object Responsible" };
+            UserType objDevReponsible = new UserType() { Name = "Object Dev. Responsible" };
+            context.UserTypes.AddRange(new List<UserType>() { customer, objDevReponsible, objResponsible });
             context.SaveChanges();
 
-            Department cooling = new Department() { Name = "Cooling", Provider = water, ImageUrl = "assets/images/departments/cooling.png" };
-            Department pipe = new Department() { Name = "Pipe", Provider = water, ImageUrl = "assets/images/departments/pipe.png" };
-            Department ventilation = new Department() { Name = "Ventilation", Provider = water, ImageUrl = "assets/images/departments/ventilation.png" };
-            Department maintenance = new Department() { Name = "Maintenance", Provider = water, ImageUrl = "assets/images/departments/maint.png" };
+            User rumen = new User() { FirstName = "Kotarakut", LastName = "Rumen", Type = customer };
+            User lava = new User() { FirstName = "Lava", LastName = "The Brith", Type = objResponsible };
+            User zlatin = new User() { FirstName = "Zlatin", LastName = "Razsadnikov", Type = objDevReponsible };
+            context.Users.AddRange(new List<User>() { rumen, lava, zlatin });
+            context.SaveChanges();
 
-            Department fire = new Department() { Name = "Fire", Provider = heating, ImageUrl = "assets/images/departments/fire.png" };
-            Department electro = new Department() { Name = "Electro", Provider = heating, ImageUrl = "assets/images/departments/electro.png" };
-            Department telematic = new Department() { Name = "Telematic", Provider = heating, ImageUrl = "assets/images/departments/telematics.png" };
-            Department security = new Department() { Name = "Security", Provider = heating, ImageUrl = "assets/images/departments/security.png" };
+            Provider water = new Provider() { Name = "Water" };
+            Provider heating = new Provider() { Name = "Heating" };
+            context.Providers.AddRange(new List<Provider>() { water, heating });
+            context.SaveChanges();
+
+            Department cooling = new Department() { Name = "Cooling", Provider = water, ImageName = "cooling.png" };
+            Department pipe = new Department() { Name = "Pipe", Provider = water, ImageName = "pipe.png" };
+            Department ventilation = new Department() { Name = "Ventilation", Provider = water, ImageName = "ventilation.png" };
+            Department maintenance = new Department() { Name = "Maintenance", Provider = water, ImageName = "maint.png" };
+
+            Department fire = new Department() { Name = "Fire", Provider = heating, ImageName = "fire.png" };
+            Department electro = new Department() { Name = "Electro", Provider = heating, ImageName = "electro.png" };
+            Department telematic = new Department() { Name = "Telematic", Provider = heating, ImageName = "telematics.png" };
+            Department security = new Department() { Name = "Security", Provider = heating, ImageName = "security.png" };
 
             context.Departments.AddRange(new List<Department>() { cooling, pipe, ventilation, maintenance, fire, electro, telematic, security });
             context.SaveChanges();
@@ -40,8 +53,8 @@ namespace ServiceBook.API.Entities
                 Address = "Sofia, Angel Kunchev 22",
                 Website = "https://kotarakutrumen.com",
                 OrganizationNumber = "112120229",
-                ImageUrl = "assets/images/company/logo.jpg",
-                Customer = new User() { FirstName = "Kotarakut", LastName = "Rumen", Type = new UserType() { Name = "Customer" } },
+                ImageName = "logo.jpg",
+                Customer = rumen,
                 Providers = new List<Provider>()
                 {
                     heating, water
@@ -71,15 +84,15 @@ namespace ServiceBook.API.Entities
             context.SaveChanges();
 
 
-            Object icb = new Object() { Name = "ICB", Company = company, Tfm = first, Type = building, ObjectIdentifier = "220675", ImageUrl = "assets/images/objects/icb-logo.jpg" };
+            Object icb = new Object() { Name = "ICB", Company = company, Tfm = first, Type = building, ObjectIdentifier = "220675", ImageName = "logo.jpg" };
             context.Objects.Add(icb);
             context.SaveChanges();
 
-            Object niproruda = new Object() { Name = "Niproruda", Company = company, ParentId = icb.Id, Tfm = second, Type = building, ObjectIdentifier = "223675", ImageUrl = "assets/images/objects/nipr-logo.jpg" };
+            Object niproruda = new Object() { Name = "Niproruda", Company = company, ParentId = icb.Id, Tfm = second, Type = building, ObjectIdentifier = "223675", ImageName = "logo.jpg" };
             context.Objects.Add(niproruda);
             context.SaveChanges();
 
-            Object A207 = new Object() { Name = "A207", Company = company, ParentId = niproruda.Id, Tfm = third, Type = room, ObjectIdentifier = "220678", ImageUrl = "assets/images/objects/a207-logo.jpg" };
+            Object A207 = new Object() { Name = "A207", Company = company, ParentId = niproruda.Id, Tfm = third, Type = room, ObjectIdentifier = "220678", ImageName = "logo.jpg" };
             context.Objects.Add(A207);
             context.SaveChanges();
 
@@ -101,6 +114,22 @@ namespace ServiceBook.API.Entities
                     icbDep1, icbDep2, icbDep3, icbDep4, niprorudaDep1, niprorudaDep2, niprorudaDep3, niprorudaDep4, A207Dep1, A207Dep2
                 });
             context.SaveChanges();
+
+            ObjectUser objUser1 = new ObjectUser() { Object = icb, User = lava };
+            ObjectUser objUser2 = new ObjectUser() { Object = icb, User = zlatin };
+
+            ObjectUser objUser3 = new ObjectUser() { Object = niproruda, User = lava };
+            ObjectUser objUser4 = new ObjectUser() { Object = niproruda, User = zlatin };
+
+            ObjectUser objUser5 = new ObjectUser() { Object = A207, User = lava };
+            ObjectUser objUser6 = new ObjectUser() { Object = A207, User = zlatin };
+            context.ObjectUsers.AddRange(
+                new List<ObjectUser>()
+                {
+                    objUser1, objUser2, objUser3, objUser4, objUser5, objUser6
+                });
+            context.SaveChanges();
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ServiceBook.API.Entities;
+using System;
 
 namespace ServiceBook.API.Repositories
 {

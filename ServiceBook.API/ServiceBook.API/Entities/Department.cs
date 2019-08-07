@@ -13,7 +13,7 @@ namespace ServiceBook.API.Entities
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageName { get; set; }
 
         [ForeignKey("ProviderId")]
         public Provider Provider { get; set; }

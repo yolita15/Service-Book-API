@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceBook.API.Repositories
 {
-    public class TfmRepository : IRepository<Tfm>, ITfmRepository
+    public class TfmRepository : ITfmRepository
     {
         private ServiceBookContext _context;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceBook.API.Repositories
 {
-    public class ObjectTypeRepository : IRepository<ObjectType>, IObjectTypeRepository
+    public class ObjectTypeRepository : IObjectTypeRepository
     {
         private ServiceBookContext _context;
 

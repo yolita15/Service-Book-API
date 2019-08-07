@@ -24,7 +24,7 @@ namespace ServiceBook.API.Entities
         [MaxLength(100)]
         public string OrganizationNumber { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageName { get; set; }
 
         [ForeignKey("CustomerId")]
         public User Customer { get; set; }

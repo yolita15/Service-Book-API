@@ -45,11 +45,14 @@ namespace ServiceBook.API
             services.AddScoped<IObjectRepository, ObjectRepository>();
             services.AddScoped<ITfmRepository, TfmRepository>();
             services.AddScoped<IObjectTypeRepository, ObjectTypeRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ServiceBookContext serviceBookContext)
         {
+            app.UseDefaultFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
