@@ -2,7 +2,7 @@
 
 namespace ServiceBook.API.Repositories
 {
-    public interface ITfmRepository : IRepository<Tfm>
+    public interface IUserRepository : IRepository<User>
     {
     }
 }
