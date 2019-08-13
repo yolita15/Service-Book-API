@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceBook.API.Entities;
 
 namespace ServiceBook.API.Migrations
 {
     [DbContext(typeof(ServiceBookContext))]
-    partial class ServiceBookContextModelSnapshot : ModelSnapshot
+    [Migration("20190808141142_AddCommentFieldInObject")]
+    partial class AddCommentFieldInObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,6 +96,8 @@ namespace ServiceBook.API.Migrations
                         .HasMaxLength(50);
 
                     b.Property<Guid?>("ParentId");
+
+                    b.Property<string>("Path");
 
                     b.Property<Guid>("TfmId");
 

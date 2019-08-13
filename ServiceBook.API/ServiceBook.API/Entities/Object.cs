@@ -18,6 +18,9 @@ namespace ServiceBook.API.Entities
 
         public string ImageName { get; set; }
 
+        [Column(TypeName = "text")]
+        public string Comment { get; set; }
+
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }
 

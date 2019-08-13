@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServiceBook.API.Entities;
 using ServiceBook.API.Models;
@@ -7,6 +8,7 @@ using ServiceBook.API.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Object = ServiceBook.API.Entities.Object;
 
 namespace ServiceBook.API.Controllers
@@ -24,12 +26,17 @@ namespace ServiceBook.API.Controllers
             _env = env;
         }
 
-
         [HttpGet("{id}", Name = "GetObject")]
         public IActionResult GetObject(Guid id)
         {
             Object objectFromRepo = _objectRepository.GetById(id);
+            IEnumerable<User> usersFromRepo = objectFromRepo.ObjectUsers.Select(od => od.User);
+            IEnumerable<UserDto> users = Mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(usersFromRepo);
+
             ObjectDto obj = Mapper.Map<ObjectDto>(objectFromRepo);
+            obj.Departments = objectFromRepo.ObjectDepartments.Select(od => od.Department);
+            obj.Users = users;
+            obj.Path = GetPathToObject(id);
 
             return Ok(obj);
         }
@@ -43,36 +50,45 @@ namespace ServiceBook.API.Controllers
             return Ok(objects);
         }
 
-        [HttpGet("{objectId}/departments", Name = "GetDeparmentsForObject")]
-        public IActionResult GetDeparmentsForObject(Guid objectId)
-        {
-            IEnumerable<Department> departmentsFromRepo = _objectRepository.GetDepartmentsForObject(objectId);
-
-            return Ok(departmentsFromRepo);
-        }
-
-        [HttpGet("{objectId}/users", Name = "GetUsersForObject")]
-        public IActionResult GetUsersForObject(Guid objectId)
-        {
-            IEnumerable<User> usersFromRepo = _objectRepository.GetUsersForObject(objectId);
-            IEnumerable<UserDto> users = Mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(usersFromRepo);
-
-            return Ok(users);
-        }
-
         [HttpPut("{objectId}", Name = "UpdateObject")]
-        public IActionResult UpdateObject(Guid objectId, [FromBody] Object obj)
+        public IActionResult UpdateObject(Guid objectId, [FromQuery(Name = "apply")]int applyForChildren, [FromBody] ObjectDto obj)
         {
             if (_objectRepository.ObjectExists(objectId) == false)
             {
                 return NotFound();
             }
 
-            _objectRepository.UpdateObject(obj);
+            List<Department> departmentsToBeUpdated = obj.Departments.ToList();
+            Object objectFromBody = Mapper.Map<Object>(obj);
+            _objectRepository.UpdateObject(objectFromBody, departmentsToBeUpdated, applyForChildren);
+
+            if(applyForChildren == 1)
+            {
+                ApplyDepartmentChangesForChildren(objectId, departmentsToBeUpdated);
+            }
+
             return Ok();
         }
 
-        [HttpGet("{objectId}/image")]
+        [HttpPut("{objectId}/{imageName}", Name = "UploadImage")]
+        public IActionResult UploadImage(Guid objectId, string imageName, IFormFile image)
+        {
+            string objectName = _objectRepository.GetObjectName(objectId);
+            string path = _env.WebRootFileProvider.GetFileInfo($"Images/Objects/{objectName}")?.PhysicalPath;
+
+            if(Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            path += $"/{imageName}";
+            image.CopyTo(new FileStream(path, FileMode.Create));
+
+            return Ok();
+        }
+
+
+        [HttpGet("{objectId}/image", Name = "GetImage")]
         public IActionResult GetImage(Guid objectId)
         {
             string imageName = _objectRepository.GetImageUrl(objectId);
@@ -89,8 +105,34 @@ namespace ServiceBook.API.Controllers
             {
                 return NotFound();
             }
-           
+
         }
 
+        private string GetPathToObject(Guid objectId)
+        {
+            Object obj = _objectRepository.GetById(objectId);
+            if(obj.ParentId != null)
+            {
+                return $"{GetPathToObject(obj.ParentId.GetValueOrDefault())}/{_objectRepository.GetObjectName(objectId)}";
+            }
+            else
+            {
+                return _objectRepository.GetObjectName(objectId);
+            }
+        }
+
+        private void ApplyDepartmentChangesForChildren(Guid id, List<Department> departments)
+        {
+            IEnumerable<Object> children = _objectRepository.GetObjectsWithParentId(id);
+
+            if(children != null)
+            {
+                foreach (Object child in children)
+                {
+                    _objectRepository.UpdateDepartmentsForObject(child.Id, departments);
+                    ApplyDepartmentChangesForChildren(child.Id, departments);
+                }
+            }
+        }
     }
 }

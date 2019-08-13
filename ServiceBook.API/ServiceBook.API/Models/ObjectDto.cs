@@ -12,7 +12,11 @@ namespace ServiceBook.API.Models
 
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string Comment { get; set; }
+
+        public string ImageName { get; set; }
+
+        public string Path { get; set; }
 
         public Company Company { get; set; }
 
@@ -32,8 +36,8 @@ namespace ServiceBook.API.Models
 
         public double Longitude { get; set; }
 
-        public IList<ObjectUser> ObjectUsers { get; set; }
+        public IEnumerable<UserDto> Users { get; set; }
 
-        public IList<ObjectDepartment> ObjectDepartments { get; set; }
+        public IEnumerable<Department> Departments { get; set; }
     }
 }

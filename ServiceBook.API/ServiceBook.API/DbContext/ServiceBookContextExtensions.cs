@@ -16,16 +16,18 @@ namespace ServiceBook.API.Entities
             context.Tfms.RemoveRange(context.Tfms);
             context.Objects.RemoveRange(context.Objects);
             context.SaveChanges();
-
-            UserType customer = new UserType() { Name = "Customer" };
+            
             UserType objResponsible = new UserType() { Name = "Object Responsible" };
             UserType objDevReponsible = new UserType() { Name = "Object Dev. Responsible" };
-            context.UserTypes.AddRange(new List<UserType>() { customer, objDevReponsible, objResponsible });
+            context.UserTypes.AddRange(new List<UserType>() { objDevReponsible, objResponsible });
             context.SaveChanges();
 
-            User rumen = new User() { FirstName = "Kotarakut", LastName = "Rumen", Type = customer };
+            User rumen = new User() { FirstName = "Kotarakut", LastName = "Rumen", Type = objResponsible };
             User lava = new User() { FirstName = "Lava", LastName = "The Brith", Type = objResponsible };
             User zlatin = new User() { FirstName = "Zlatin", LastName = "Razsadnikov", Type = objDevReponsible };
+            User oscar = new User() { FirstName = "King", LastName = "Oscar", Type = objDevReponsible };
+            User arya = new User() { FirstName = "Arya", LastName = "The Siamese", Type = objDevReponsible };
+            User tom = new User() { FirstName = "Tom", LastName = "The Persian", Type = objDevReponsible };
             context.Users.AddRange(new List<User>() { rumen, lava, zlatin });
             context.SaveChanges();
 

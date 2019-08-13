@@ -11,7 +11,5 @@ namespace ServiceBook.API.Entities
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
-
-        public string ImageUrl { get; set; }
     }
 }

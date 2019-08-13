@@ -1,9 +1,7 @@
-﻿using System;
+﻿using ServiceBook.API.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ServiceBook.API.Entities;
 
 namespace ServiceBook.API.Repositories
 {

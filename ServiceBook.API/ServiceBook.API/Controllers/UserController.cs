@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using ServiceBook.API.Entities;
+using ServiceBook.API.Models;
 using ServiceBook.API.Repositories;
 using System.Collections.Generic;
 
@@ -20,8 +22,9 @@ namespace ServiceBook.API.Controllers
         public IActionResult GetAllUsers()
         {
             IEnumerable<User> usersFromRepo = _userRepository.GetAll();
+            IEnumerable<UserDto> users = Mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(usersFromRepo);
 
-            return Ok(usersFromRepo);
+            return Ok(users);
         }
     }
 }

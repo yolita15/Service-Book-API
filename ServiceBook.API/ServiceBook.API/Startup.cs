@@ -47,6 +47,7 @@ namespace ServiceBook.API
             services.AddScoped<IObjectTypeRepository, ObjectTypeRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserTypeRepository, UserTypeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +75,20 @@ namespace ServiceBook.API
                 $"{src.Code} {src.Name}"));
             cfg.CreateMap<Object, ObjectForDropdownDto>();
             cfg.CreateMap<Object, ObjectDto>();
+            
+            cfg.CreateMap<ObjectDto, Object>()
+                .ForMember(o => o.Id, od => od.MapFrom(s => s.Id))
+                .ForMember(o => o.Name, od => od.MapFrom(s => s.Name) )
+                .ForMember(o => o.TfmId, od => od.MapFrom(s => s.TfmId))
+                .ForMember(o => o.TypeId, od => od.MapFrom(s => s.TypeId))
+                .ForMember(o => o.Comment, od => od.MapFrom(s => s.Comment))
+                .ForMember(o => o.Longitude, od => od.MapFrom(s => s.Longitude))
+                .ForMember(o => o.Latitude, od => od.MapFrom(s => s.Latitude))
+                .ForMember(o => o.ObjectIdentifier, od => od.MapFrom(s => s.ObjectIdentifier))
+                .ForMember(o => o.CompanyId, od => od.MapFrom(s => s.CompanyId))
+                .ForMember(o => o.ImageName, od => od.MapFrom(s => s.ImageName))
+                .ForAllOtherMembers(opt => opt.Ignore());
+                
 
             Mapper.Initialize(cfg);
 
